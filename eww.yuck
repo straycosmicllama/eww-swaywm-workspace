@@ -1,0 +1,86 @@
+(defwindow statusbar
+    :class "statusbar"
+    :monitor 0
+    :geometry (geometry :x "10px"
+        :y "0px"
+        :width "32px"
+        :height "748px"
+        :anchor "center left")
+    :stacking "bottom"
+    :exclusive true
+    (bar))
+
+(defwidget bar []
+    (centerbox 
+        :orientation "v"   
+            (workspaces)
+            ""
+            (info)))
+
+(defwidget workspaces []
+    (literal :content get_workspaces))
+
+(defwidget info []
+    (box
+        :class "info"
+        :orientation "v"
+        :space-evenly false
+        :valign "end"
+        :spacing 5
+        (infobox
+            :label "memory"
+            :icon ""
+            :content "${round(EWW_RAM.used_mem_perc, 0)}%")
+        (infobox
+            :label "ram"
+            :icon ""
+            :content "${round(EWW_CPU.avg, 0)}%" )
+        (time)
+        (battery)))
+
+(defwidget infobox [label icon content]
+    (box
+        :orientation "v"
+        :class "infobox"
+        :space-evenly false
+        (box
+            :class "label-${label}"
+            icon )
+        (box
+            :hexpand false
+            :class "content"
+            content )))
+
+(defwidget battery []
+    (circular-progress
+        :class "battery"
+        :value {EWW_BATTERY.BAT0.capacity}
+        :thickness 6
+        (label
+            :class "content-battery"
+            :text {"${EWW_BATTERY.BAT0.status}" == "Discharging" ? "" : "󰠠"})))
+
+(defwidget time []
+    (box
+        :orientation "v"
+        :class "infobox"
+        :space-evenly false
+        (box 
+            :class "label-time"
+            "󰥔")
+        (box
+            :class "content"
+            :orientation "v"
+            hour
+            min)))
+
+(defpoll hour
+    :interval "30s"
+    "date '+%H'")
+
+(defpoll min
+    :interval "30s"
+    "date '+%M'")
+
+(deflisten get_workspaces `dash ~/eww/modules/statusbar/scripts/workspaces.sh`)
+

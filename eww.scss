@@ -1,0 +1,78 @@
+$fg: #ebdbb2;
+$bg: #282828;
+$red: #fb4934;
+$green: #b8bb26;
+$yellow: #fabd2f;
+$blue: #83a598;
+$purple: #d3869b;
+$aqua: #8ec07c;
+$orange:#fe8019;
+$pad1: 5px 8px 5px 5px;
+
+* {
+    all: unset;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    border-radius: 0px;
+}
+
+.statusbar {
+    background: transparent;
+} 
+
+.workspaces {
+    border: 3px solid #fabd2f;
+    button {
+        background: $bg;
+        color: $fg;
+        padding: $pad1;
+    }
+    .focused {
+        background-color: $yellow;
+        color: $bg;
+    }
+    .urgent {
+        background-color: $red;
+        color: $bg; 
+    }
+    .empty {
+        background: $bg;
+        color: $fg;
+    }
+}
+
+.infobox {
+    border: 3px solid #fabd2f;
+}
+
+.label-memory {
+    background-color: $blue;
+    padding: $pad1;
+}
+
+.label-ram {
+    background-color: $red;
+    padding: $pad1;
+}
+
+.label-time {
+    background-color: $purple;
+    padding: $pad1;
+}
+
+.content {
+    background-color: $fg;
+    color: $bg;
+    padding: 1px 0px 1px 0px;
+}
+
+.battery {
+    color: $green;
+    background-color: $bg;
+}
+
+.content-battery {
+    color: $fg;
+    padding: 9px 12px 9px 9px;
+    background-color: $bg;
+}
