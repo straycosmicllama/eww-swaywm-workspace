@@ -82,5 +82,5 @@
     :interval "30s"
     "date '+%M'")
 
-(deflisten get_workspaces `dash ~/eww/modules/statusbar/scripts/workspaces.sh`)
+(deflisten get_workspaces `dash ~/.config/eww/scripts/workspaces.sh`)
 
