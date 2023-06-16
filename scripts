@@ -1,0 +1,36 @@
+#!/bin/sh
+
+contains() {
+    if [ "${2##*"$1"*}" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+print_workspaces() {
+    buf=""
+    output=$(swaymsg -rt get_workspaces)
+    desktops=$(echo "$output" | jq ".[] | .name | tonumber")
+    focused=$(echo "$output" | jq ".[] | select(.focused==true) | .name | tonumber")
+    urgent=$(echo "$output" | jq ".[] | select(.urgent==true) | .name | tonumber")
+    
+    for d in $desktops; do
+        if contains "$focused" "$d" ; then
+            class="focused"
+        elif contains "$urgent" "$d" && [ -n "$str" ] ; then
+            class="urgent"
+        else 
+            class="empty"
+        fi
+        buf="$buf (eventbox :cursor \"hand\" (button :class \"$class\" :onclick \"swaymsg workspace $d\" \"󰝤\"))"
+    done
+
+    echo "(box :class \"workspaces\" :orientation \"v\" :valign \"start\" $buf)"
+}
+
+print_workspaces
+
+swaymsg -t subscribe -m "['workspace']" | while read -r _ ; do
+    print_workspaces
+done 
